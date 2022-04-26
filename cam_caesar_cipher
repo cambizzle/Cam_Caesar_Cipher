@@ -1,0 +1,61 @@
+import string
+import collections
+import sys
+from collections import deque
+
+#inputs string input will be from user while integer input will come straight from the command line
+string = input()
+integer = sys.argv[1]
+
+#iteration that searches for all alphabetic characters in string and appends to empty string [alpha] in uppercase format
+alpha = "".join([ch for ch in string if ch.isalpha()]).upper()
+#print(alpha)    
+
+#using a linked list, a queue to be exact, we will rotate letters in string by rotation numbers
+password = deque(alpha)
+
+cipher = ''
+
+#find and shift order of string using unicode
+for i in password:
+
+      #finds elem position in 0-25
+      i_unicode = ord(i)
+
+      i_index = ord(i) - ord("A")
+
+      # perform the shift
+      new_index = (i_index + integer) % 26
+
+      # convert to new character
+      new_unicode = new_index + ord("A")
+
+      new_elem = chr(new_unicode)
+
+      # append to encrypted string
+      cipher = cipher + new_elem
+
+print(cipher)
+
+finale = ''
+
+#ensure that the slices of 5 don't exceed 10 per line
+for i in range(int(len(cipher)/5)):
+      if (i % 10 == 0):
+            finale += '\n'
+#print(finale)
+      
+for j in range(5):
+      finale += cipher[i*5 + j]
+finale += ' '
+
+if (len(cipher) % 5 != 0):
+      for j in range(len(cipher) % 5):
+            finale += cipher[len(cipher) - len(cipher) % 5 + j]
+    
+print(finale)
+
+
+
+
+
